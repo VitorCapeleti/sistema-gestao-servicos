@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGS - Sistema de Gestão</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/custom.css}" />
+</head>
+
+<div th:replace="~{layout :: layout(content = ~{::content})}">
+    <div th:fragment="content">
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Nova Ordem de Serviço</h3>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/os/salvar}" th:object="${osRequest}" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="cliente" class="form-label">Cliente</label>
+                            <select class="form-select" id="cliente" th:field="*{clienteId}" required>
+                                <option value="">Selecione...</option>
+                                <option th:each="cliente : ${listaClientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="funcionario" class="form-label">Funcionário Responsável</label>
+                            <select class="form-select" id="funcionario" th:field="*{funcionarioId}" required>
+                                <option value="">Selecione...</option>
+                                <option th:each="func : ${listaFuncionarios}" th:value="${func.id}" th:text="${func.nome}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tipo" class="form-label">Tipo de OS</label>
+                            <select class="form-select" id="tipo" th:field="*{tipo}" required>
+                                 <option value="PREVENTIVA">Preventiva</option>
+                                 <option value="CORRETIVA">Corretiva</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="descricao" class="form-label">Descrição do Problema</label>
+                            <input type="text" class="form-control" id="descricao" th:field="*{descricao}" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Abrir Ordem de Serviço</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h3 class="mt-5 mb-3">Ordens de Serviço Ativas</h3>
+        <div class="card">
+          <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Cliente</th>
+                        <th>Funcionário</th>
+                        <th>Tipo</th>
+                        <th>Status</th>
+                        <th>Descrição</th>
+                        <th>Custo</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <tr th:each="os : ${listaOS}">
+                        <td th:text="${os.id}"></td>
+                        <td th:text="${os.cliente.nome}"></td>
+                        <td th:text="${os.funcionario?.nome}"></td>
+                        <td th:text="${os.tipo}"></td>
+                        <td><span class="badge bg-info text-dark" th:text="${os.status}"></span></td>
+                        <td th:text="${os.descricao}"></td>
+                        <td th:text="${os.custo != null ? 'R$ ' + os.custo : '-'}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/os/finalizar/{id}(id=${os.id})}" class="btn btn-success btn-sm" th:if="${os.status.name() != 'CONCLUIDA' and os.status.name() != 'CANCELADA'}">Finalizar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+</div>
+</html>

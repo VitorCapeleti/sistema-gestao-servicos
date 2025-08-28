@@ -1,0 +1,39 @@
+/* src/main/resources/static/css/custom.css */
+
+body {
+    background-color: #0067ce; /* Um cinza bem claro para o fundo */
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.card {
+    border: none; /* Remove a borda padrão */
+    box-shadow: 0 4px 8px rgba(0,0,0,.05); /* Sombra suave */
+    border-radius: 0.5rem; /* Bordas mais arredondadas */
+}
+
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 600;
+}
+
+.table thead {
+    background-color: #343a40; /* Cabeçalho da tabela escuro */
+    color: #ffffff;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.footer {
+    padding: 2rem 0;
+    color: #6c757d;
+    text-align: center;
+    background-color: #e9ecef;
+    margin-top: 4rem;
+}
